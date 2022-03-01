@@ -1,0 +1,65 @@
+{
+ "properties": {
+  "displayName": "Allowed  SQL DB size SKUs",
+  "policyType": "Custom",
+  "mode": "Indexed",
+  "description": "This policy enables you to specify a set of SQL DB SKUs that your organization can deploy.",
+  "metadata": {
+   "category": "SQL DB",
+   "createdBy": "770a965a-36bf-44c3-8359-28742cf23855",
+   "createdOn": "2022-03-01T08:11:31.8348195Z",
+   "updatedBy": "770a965a-36bf-44c3-8359-28742cf23855",
+   "updatedOn": "2022-03-01T09:29:53.7088715Z"
+  },
+  "parameters": {
+   "listOfAllowedSKUs": {
+    "type": "Array",
+    "metadata": {
+     "displayName": "Allowed Size SKUs",
+     "description": "The list of size SKUs that can be specified for virtual machines."
+    },
+    "allowedValues": [
+     "GP_Gen5_2",
+     "GP_Fsv2_8",
+     "GP_DC_2"
+    ],
+    "defaultValue": [
+     "GP_Gen5_2"
+    ]
+   },
+   "listOfAllowedTierName": {
+    "type": "Array",
+    "metadata": {
+     "displayName": "Allowed Size SKUs",
+     "description": "The list of size SKUs that can be specified for virtual machines."
+    },
+    "allowedValues": [
+     "GeneralPurpose"
+    ],
+    "defaultValue": [
+     "GeneralPurpose"
+    ]
+   }
+  },
+  "policyRule": {
+   "if": {
+    "allOf": [
+     {
+      "field": "Microsoft.Sql/servers/databases/sku.tier",
+      "in": "[parameters('listOfAllowedTierName')]"
+     },
+     {
+      "field": "Microsoft.Sql/servers/databases/sku.name",
+      "in": "[parameters('listOfAllowedSKUs')]"
+     }
+    ]
+   },
+   "then": {
+    "effect": "Deny"
+   }
+  }
+ },
+ "id": "/subscriptions/a30ae073-ba91-4325-a72d-438618a81832/providers/Microsoft.Authorization/policyDefinitions/3e8e8606-03f7-492d-a03b-a419c6423134",
+ "type": "Microsoft.Authorization/policyDefinitions",
+ "name": "3e8e8606-03f7-492d-a03b-a419c6423134"
+}

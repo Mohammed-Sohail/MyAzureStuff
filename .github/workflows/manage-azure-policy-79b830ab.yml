@@ -1,0 +1,32 @@
+name: manage-azure-policy-79b830ab
+on:
+  workflow_dispatch:
+    inputs:
+      remarks:
+        description: 'Reason for triggering the workflow run'
+        required: false
+        default: 'Updating Azure Policies'
+
+
+## Uncomment the following if you wish to automatically trigger workflow run with every commit
+#
+#  push:
+#    paths:
+#      - 'ConfigurationExcemption/policies/Allowed_SQL_DB_size_SKUs_3e8e8606-03f7-492d-a03b-a419c6423134/**'
+#      - .github/workflows/manage-azure-policy-79b830ab.yml
+jobs:
+  apply-azure-policy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS_79b830ab}}
+        allow-no-subscriptions: true
+    - name: Create or Update Azure Policies
+      uses: azure/manage-azure-policy@v0
+      with:
+        paths: |
+          ConfigurationExcemption/policies/Allowed_SQL_DB_size_SKUs_3e8e8606-03f7-492d-a03b-a419c6423134/**
